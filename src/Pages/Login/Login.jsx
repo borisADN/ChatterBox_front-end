@@ -20,6 +20,9 @@ export default function Login() {
       console.log(response.data);
       if (response.data.message === 'Login successful') {
         toast.success('Bienvenue!');
+        // console.log(response.data.user.id);
+        
+        localStorage.setItem('UserId', response.data.user.id);
         navigate('/dashboard');
       } else if(response.data.message === 'Login failed') {
         toast.error('Invalid email or password');
