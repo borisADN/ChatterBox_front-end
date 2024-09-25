@@ -56,7 +56,10 @@ h2 {
     width: 100%;
 }
 
-
+.group-btn:hover{
+  color: #6c63ff;
+  
+}
   .contact.active {
     background-color: #6c63ff; /* Change la couleur de fond pour le contact actif */
     color: white;

@@ -24,7 +24,7 @@ export default function Dashboard() {
  <div className="welcome-container">
                     <h1>Bienvenue!</h1>
                     <p>Veuillez sélectionner un utilisateur pour commencer à discuter et continuer l'aventure!</p>
-                   <Link to={"/all_users"}> <button id="continueBtn">Continuer</button></Link>
+                   <Link to={"/chat"}> <button id="continueBtn">Continuer</button></Link>
                     {/* <button  > Continuer</button> */}
                 </div>
     </div>

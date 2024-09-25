@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react"; 
 import { UserStyle } from "./style";
-import { FaPaperclip, FaPaperPlane } from "react-icons/fa";
+import {Link} from "react-router-dom"
+import { FaArrowAltCircleRight, FaPaperclip, FaPaperPlane } from "react-icons/fa";
+import { HiMiniUsers } from "react-icons/hi2"
 import { BsPlusCircleFill } from "react-icons/bs";
 import { IoSearch } from "react-icons/io5";
 import axios from "axios";
@@ -141,21 +143,26 @@ export default function Chat() {
                     </div>
                 
                     <div className="contact_container" style={{position: "relative"}}>
-                        {users.filter(user => user.name.toLowerCase().includes(search.toLowerCase())).length === 0 ? (
+                    {users.length === 1 ? (
+                            <p style={{ color: "red", fontWeight: "bold" }}>Vous êtes seul pour l'instant !</p>
+                        ) : users.length === 0 ? (
                             <p style={{ color: "red", fontWeight: "bold" }}>Aucun utilisateur trouvé !</p>
                         ) : (
                             users.filter(user => user.name.toLowerCase().includes(search.toLowerCase())).map((user) => (
                                 <div className={`contact ${selectedUser && selectedUser.id === user.id ? "active" : ""}`} key={user.id} onClick={() => handleUserSelect(user)}>
-                                    <div className="pic" style={{ backgroundImage: `url(${user.avatar})`, backgroundSize: 'cover' }} />
-                                    <p style={{ fontWeight: "bold", color: "black" }}>{user.name}</p>
+                               
+                                    <div className="pic" style={{ backgroundImage: `url(${user.avatar})`, backgroundSize: 'cover'}} />
+                   
+                                    <p style={{ fontWeight: "bold", color: "black"}}>{user.name}</p>
                                 </div>
                             ))
                         )}
                    {/* bouton flottant pour creer un groupe */}
                     </div>
-                    <div className="group-button" style={{float: "right",backgroundColor: "#5850c0", color: "white", borderRadius: "3px", padding: "3px", cursor: "pointer",textAlign: "center"}}>
-                   
-                    <BsPlusCircleFill size={40} />
+                    <div style={{textAlign: "center"}} className="group-btn" > 
+                    <HiMiniUsers color="blue" />
+                        <Link to={"/group"}>Mes Groupes</Link>
+                        <FaArrowAltCircleRight  color="blue"/>
                     </div>
                 </div>
 

@@ -10,6 +10,8 @@ import ChatGpt from "./Pages/Users/ChatGpt";
 import ChatInterface from "./Pages/Users/ChatGpt";
 import Chat from "./Pages/ChatInterface/Chat";
 import Chat2 from "./Pages/trial/Chat";
+import GroupChat from "./Pages/Group/Group";
+import CreateGroup from "./Pages/CreateGroup/CreateGroup";
 
 export default function App() {
   const route = createBrowserRouter([
@@ -36,10 +38,20 @@ export default function App() {
     {
       path: "/trial",
       element: <Chat2 />
-    },{
+    },
+    {
       path: "/chat",
       element: <Chat />
     },
+    {
+      path: "/group",
+      element: <GroupChat />
+    },
+    {
+      path: "/createGroup",
+      element: <CreateGroup />
+    }
+    ,
     {
       path: "*",
       element: <NotFound />
