@@ -12,6 +12,7 @@ import Chat from "./Pages/ChatInterface/Chat";
 import Chat2 from "./Pages/trial/Chat";
 import GroupChat from "./Pages/Group/Group";
 import CreateGroup from "./Pages/CreateGroup/CreateGroup";
+import GroupDetails from "./Pages/GroupDetails/GroupDetails";
 
 export default function App() {
   const route = createBrowserRouter([
@@ -50,8 +51,15 @@ export default function App() {
     {
       path: "/createGroup",
       element: <CreateGroup />
-    }
-    ,
+    },
+    {
+      path: "/GroupDetails/:groupId",
+      element: <GroupDetails />
+    },
+    {
+      path: "/addMember/:groupId",
+     element: <Users />
+    },
     {
       path: "*",
       element: <NotFound />

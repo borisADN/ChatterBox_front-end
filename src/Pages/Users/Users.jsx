@@ -3,9 +3,11 @@ import { UserStyle } from "./style";
 import { FaPaperclip, FaPaperPlane, FaTrash } from "react-icons/fa"; // Importer l'icône de suppression
 import { IoSearch } from "react-icons/io5";
 import "./Users.css";
-import {Link } from "react-router-dom";
+
+import {Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import logo from "../../assets/40138-removebg-preview.png";
+import toast from "react-hot-toast";
 
 export default function Chat() {
     const [users, setUsers] = useState([]);
@@ -13,7 +15,41 @@ export default function Chat() {
     const [message, setMessage] = useState("");
     const [selectedFile, setSelectedFile] = useState(null);
     const [messages, setMessages] = useState([]);
+    const [email, setEmail] = useState("");
     const chatRef = useRef(null);
+    const navigate = useNavigate();
+
+    
+    const { groupId } = useParams();
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            console.log("handleSubmit");
+            const response = await axios.post('http://localhost:8000/api/AddMember', {
+                group_id: groupId,
+                email: email,
+            });
+            toast.success('Utilisateur ajoute avec succes');
+            navigate('/group');
+            
+        } catch (error) {
+            console.error("Erreur lors de l'ajout du membre :", error);
+            if (error.response) {
+                toast.error(error.response.data);
+                console.log(error.response.data);
+                // Gérer les erreurs envoyées par l'API
+                // setMessage(error.response.data.message);
+            } else {
+                console.error("Erreur inconnue :", error);
+                // toast.error('Bienvenue!');
+                // Gérer d'autres erreurs (ex: erreur de connexion)
+                // setMessage('An error occurred. Please try again.');
+            }
+            
+        }
+        
+    };
 
     const fetchUsers = async () => {
         try {
@@ -102,11 +138,17 @@ export default function Chat() {
                             <p style={{ color: "red", fontWeight: "bold" }}>Aucun utilisateur trouvé !</p>
                         ) : (
                             users.filter(user => user.name.toLowerCase().includes(search.toLowerCase())).map((user) => (
-                                <div className="contact" key={user.id}>
-                                    <Link to="/chat/"key={user.id}>
+                                <div className="contact" key={user.id} style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                                   
                                     <div className="pic" style={{ backgroundImage: `url(${user.avatar})`, backgroundSize: 'cover'}} />
-                                </Link>
-                                    <p style={{ fontWeight: "bold", color: "black"}}>{user.name}</p>
+                            
+                                   
+                              <div>
+                                    <p>{user.email}</p>
+
+                              </div>
+
+                                    <p style={{ fontWeight: "bold", color: "black"}}>{user.name}</p><br />
                                 </div>
                             ))
                         )}
@@ -114,52 +156,15 @@ export default function Chat() {
                 </div>
 
                 <div className="chat" style={{textAlign: "center"}}>
-
+<p>Ajouter un utilisateur</p>
+<p>{groupId}</p>
                     <h1>Chat</h1>
-                    {/* <div className="bar">
-                        <div className="pic" style={{ backgroundImage: `url(${logo})`, backgroundSize: 'cover' }} />
-                        <div className="name">Static Chat</div>
-                        <div className="seen">Seen 2m ago</div>
-                    </div>
+                    <form action="" onSubmit={handleSubmit}>
 
-                    <div id="chat" ref={chatRef} style={{ overflowY: 'auto', maxHeight: '400px' }}>
-                        {messages.map((msg, index) => (
-                            <div key={index} className={`message ${msg.type} ${msg.sender === "You" ? "sender" : "receiver"}`}>
-                                {renderMessageContent(msg)}
-                                <div className="message-time">{formatTime(msg.time)}</div>
-                                <FaTrash 
-                                    style={{ cursor: "pointer", color: "red", marginLeft: "10px" }} 
-                                    onClick={() => handleDeleteMessage(index)} 
-                                />
-                            </div>
-                        ))}
-                    </div>
-
-                    <div className="input">
-                        <textarea
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            placeholder="Type a message..."
-                        />
-                        <div onClick={handleSendMessage} style={{ cursor: "pointer", color: "blue" }}>
-                            <FaPaperPlane />
-                        </div>
-                        <input
-                            type="file"
-                            onChange={(e) => setSelectedFile(e.target.files[0])}
-                            style={{ display: "none" }} 
-                            id="file-input"
-                        />
-                        <label htmlFor="file-input" style={{ cursor: "pointer", color: "blue" }}>
-                            <FaPaperclip />
-                        </label>
-                        <div
-                            onClick={handleSendFile}
-                            style={{ cursor: "pointer", color: selectedFile ? "blue" : "gray" }}
-                        >
-                            <FaPaperPlane />
-                        </div>
-                    </div> */}
+<input type="text" placeholder="renseignez l'email de l'utilisateur" value={email} onChange={(e) => setEmail(e.target.value)} />
+<input type="submit" value="Envoyer" />
+                    </form>
+                    
                 </div>
             </div>
         </div>

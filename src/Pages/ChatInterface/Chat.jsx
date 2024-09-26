@@ -21,6 +21,8 @@ export default function Chat() {
     const fetchUsers = async () => {
         try {
             const response = await axios.get("http://localhost:8000/api/all_users");
+            console.log(response.data);
+            
             setUsers(response.data);
         } catch (error) {
             console.error("Erreur lors de la récupération des utilisateurs :", error);

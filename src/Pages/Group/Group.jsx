@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"; 
+import axios from "axios"; // Importer axios
 import { UserStyle } from "../Users/style";
 import { IoSearch } from "react-icons/io5";
 import { FaPaperclip, FaPaperPlane } from "react-icons/fa";
@@ -14,6 +15,7 @@ export default function GroupChat() {
     const [search, setSearch] = useState("");
     const chatRef = useRef(null);
     const [selectedFile, setSelectedFile] = useState(null);
+    const defaultAvatar = 'http://localhost:8000/uploads/default-avatar.png';
     const responseMessages = [
         "Merci pour votre message!",
         "Je suis d'accord avec ce que tu dis.",
@@ -23,35 +25,48 @@ export default function GroupChat() {
         "Peut-être devrions-nous en discuter davantage.",
     ];
 
-    // Simulation des données des groupes
+    // Appel à l'API pour récupérer les groupes de l'utilisateur connecté
     useEffect(() => {
         const fetchGroups = async () => {
-            const fetchedGroups = [
-                { id: 1, name: "Groupe 1", members: ["Alice", "Bob", "Charlie"], image: "https://via.placeholder.com/150/FF5733/FFFFFF?text=Groupe+1" },
-                { id: 2, name: "Groupe 2", members: ["David", "Eve"], image: "https://via.placeholder.com/150/33FF57/FFFFFF?text=Groupe+2" },
-                { id: 3, name: "Groupe 3", members: ["Frank", "Grace", "Heidi", "Ivan"], image: "https://via.placeholder.com/150/3357FF/FFFFFF?text=Groupe+3" },
-                { id: 4, name: "Groupe 4", members: ["Jack", "Kate", "Lisa"], image: "https://via.placeholder.com/150/FF33A5/FFFFFF?text=Groupe+4" },
-                { id: 5, name: "Groupe 5", members: ["Mary", "Nancy", "Olivia"], image: "https://via.placeholder.com/150/F3FF33/FFFFFF?text=Groupe+5" },
-                { id: 6, name: "Groupe 6", members: ["Paul", "Quincy", "Rachel"], image: "https://via.placeholder.com/150/FF33F6/FFFFFF?text=Groupe+6" },
-            ];
-            setGroups(fetchedGroups);
+            const userId = localStorage.getItem("UserId"); // ID de l'utilisateur connecté
+
+            try {
+                const response = await axios.post('http://localhost:8000/api/SelectGroups', { member_id: userId });
+                // console.log(response.data.groups.avatar);
+                // console.log(groups);
+                
+                
+                setGroups(response.data.groups); // Mettre à jour les groupes récupérés
+            } catch (error) {
+                console.error("Erreur lors de la récupération des groupes:", error);
+            }
         };
 
         fetchGroups();
-    }, []);
+    }, []); // Le useEffect est exécuté une seule fois au chargement du composant
 
-    const handleGroupSelect = (group) => {
+    const handleGroupSelect = async (group) => {
         setSelectedGroup(group);
         setMessages([]); // Réinitialiser les messages lorsqu'un groupe est sélectionné
+
+        try {
+            const response = await axios.post('http://localhost:8000/api/getGroupMessages', { group_id: group.id });
+            console.log(messages.sender_id);
+            setMessages(response.data.messages); // Mettre à jour les messages récupérés pour ce groupe
+        } catch (error) {
+            console.error("Erreur lors de la récupération des messages du groupe:", error);
+        }
     };
 
-    const handleSendMessage = () => {
+    const handleSendMessage = async() => {
         if (!message.trim()) return;
         const newMessage = {
-            id: messages.length + 1,
+            group_id: selectedGroup.id,
+            sender_id: localStorage.getItem("UserId"),
             message,
-            outgoing_msg_id: localStorage.getItem("UserId"),
         };
+
+        await axios.post('http://localhost:8000/api/SendMessageGroup', newMessage);
         setMessages(prevMessages => [...prevMessages, newMessage]);
         setMessage(""); // Réinitialiser le champ de message
 
@@ -64,21 +79,7 @@ export default function GroupChat() {
         }, 1000); // Délai de 1 seconde pour simuler une réponse
     };
 
-    const simulateResponse = (sentMessage) => {
-        const randomMemberIndex = Math.floor(Math.random() * selectedGroup.members.length);
-        const memberName = selectedGroup.members[randomMemberIndex];
-        const responseMessage = {
-            id: messages.length + 2, // Assure que l'ID est unique
-            message: `${memberName}: ${responseMessages[Math.floor(Math.random() * responseMessages.length)]}`,
-            outgoing_msg_id: null, // Indique que c'est un message entrant
-        };
-
-        // Ajoute le message de réponse à la liste des messages
-        setMessages(prevMessages => [...prevMessages, responseMessage]);
-        
-        // Scroll to bottom after adding a new incoming message
-        scrollToBottom();
-    };
+ 
 
     const handleSendFile = () => {
         if (!selectedFile) return;
@@ -100,21 +101,7 @@ export default function GroupChat() {
         }, 1000); // Délai de 1 seconde pour simuler une réponse
     };
 
-    const simulateFileResponse = (sentMessage) => {
-        const randomMemberIndex = Math.floor(Math.random() * selectedGroup.members.length);
-        const memberName = selectedGroup.members[randomMemberIndex];
-        const responseMessage = {
-            id: messages.length + 2, // Assure que l'ID est unique
-            file: `${memberName}_file.txt`, // Nom du fichier simulé
-            outgoing_msg_id: null, // Indique que c'est un message entrant
-        };
 
-        // Ajoute le message de réponse à la liste des messages
-        setMessages(prevMessages => [...prevMessages, responseMessage]);
-        
-        // Scroll to bottom after adding a new incoming file message
-        scrollToBottom();
-    };
 
     const scrollToBottom = () => {
         if (chatRef.current) {
@@ -155,7 +142,9 @@ export default function GroupChat() {
                                      style={{ 
                                          width: '40px', 
                                          height: '40px', 
-                                         backgroundImage: `url(${group.image || 'path/to/default-image.jpg'})`, 
+                                        //  backgroundImage: `url(${group.avatar})`, 
+                                         backgroundImage: `url(http://localhost:8000/uploads/${group.avatar})`,
+
                                          backgroundSize: 'cover', 
                                          borderRadius: '50%', 
                                          marginRight: '10px' 
@@ -176,12 +165,12 @@ export default function GroupChat() {
                     {selectedGroup ? (
                         <>
                             <div className="bar" style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                                <a href="/GroupDetails">
+                            <a href={`/GroupDetails/${selectedGroup.id}`}>
                                 <div className="group-pic" 
                                      style={{ 
                                          width: '40px', 
                                          height: '40px', 
-                                         backgroundImage: `url(${selectedGroup.image || 'path/to/default-image.jpg'})`, 
+                                         backgroundImage: `url(http://localhost:8000/uploads/${selectedGroup.avatar })`, 
                                          backgroundSize: 'cover', 
                                          borderRadius: '50%', 
                                          marginRight: '10px' 
@@ -190,20 +179,20 @@ export default function GroupChat() {
                                 </a>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                                     <div className="name" style={{ fontWeight: 'bold', marginRight: '10px' }}>{selectedGroup.name}</div>
-                                     <a href = "/addMember">
+                                    <a href={`/addMember/${selectedGroup.id}`}>
                                      <FaCirclePlus size={40} />
 
                                      </a>
                                 </div>
                             </div>
-                            <h6>{selectedGroup.members.length} Membres</h6>
+                            {/* <h6>{selectedGroup.members.length} Membres</h6> */}
 
                             {/* Messages window */}
                             <div id="chat" ref={chatRef} style={{ overflowY: 'auto', maxHeight: '400px' }}>
                                 {messages.map((msg, index) => (
                                     <div
                                         key={index}
-                                        className={`message ${msg.outgoing_msg_id === localStorage.getItem("UserId") ? "sender" : ""}`}
+                                        className={`message ${msg.sender_id === localStorage.getItem("UserId") ? "sender" : ""}`} 
                                         style={{
                                             display: 'flex',
                                             alignItems: 'center',
@@ -213,23 +202,19 @@ export default function GroupChat() {
                                         {msg.file ? (
                                             <a 
                                                 href={`http://localhost:8000/uploads/sendFile/${msg.file}`} 
-                                                download 
-                                                target="_blank" 
-                                                rel="noopener noreferrer"
-                                                style={{ textDecoration: 'none', color: 'blue' }} // Ajout de styles pour le lien de téléchargement
+                                                download={msg.file}
+                                                style={{ textDecoration: 'none', color: 'blue' }}
                                             >
-                                                Fichier: {msg.file}
+                                                {msg.file}
                                             </a>
                                         ) : (
-                                            <p style={{ maxWidth: '300px', margin: '0', padding: '5px', borderRadius: '5px' }}>
-                                                {msg.message}
-                                            </p>
+                                            <p>{msg.message}</p>
                                         )}
                                     </div>
                                 ))}
                             </div>
 
-                            {/* Message input */}
+                            {/* Input and send button */}
                             <div className="input">
                                 <textarea
                                     value={message}
@@ -259,9 +244,7 @@ export default function GroupChat() {
                             </div>
                         </>
                     ) : (
-                        <div className="no-user-selected">
-                            <p>Sélectionnez un groupe pour démarrer une conversation de groupe.</p>
-                        </div>
+                        <p style={{ fontWeight: 'bold' }}>Sélectionnez un groupe pour démarrer une conversation</p>
                     )}
                 </div>
             </div>

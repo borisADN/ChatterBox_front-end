@@ -25,7 +25,6 @@ export default function Register() {
       // setMessage('Passwords do not match.');
       return;
   }
-    console.log('heading');
 
     const formData = new FormData();
     formData.append('name', name);
