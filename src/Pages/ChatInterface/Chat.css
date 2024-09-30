@@ -153,6 +153,17 @@ h2 {
   animation: fadeIn 0.4s ease-out;
 }
 
+.message {
+  display: flex;
+  margin: 10px 0;
+  max-width: 70%; /* Ajuster si nécessaire */
+  padding: 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+
 
 
 

@@ -1,15 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "./Style.css";
+import axios from "axios";
 
 export default function GroupDetails() {
   const { groupId } = useParams();
+  const [email, setEmail] = useState('');
+  const AdderId = localStorage.getItem('UserId');
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8000/api/InviteMember', {
+        group_id: groupId,
+        email: email,
+        id: AdderId,
+      });
+
+      // if(response.data.)
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    
+  }
   return (
     <div
       style={{
         display: "flex",
         alignItems: "center",
-        height: "100vh",
+        height: "100%",
         flexDirection: "column",
         backgroundColor: "#0d3b66"
       }}
@@ -68,6 +88,22 @@ export default function GroupDetails() {
           </tbody>
         </table>
       </div>
+      <div className="invitation">
+        <div>
+      <h3>inviter un membre non inscrit au groupe</h3>
+
+        </div>
+<div className="invit-form">
+<p>Invitez un membre non inscrit au groupe</p>
+<p>il sera auтомatiquement ajouté au groupe lors de sa connexion sur chatterBox</p>
+
+<input type="email" placeholder="Email du nouveau membre" style={{width:"300px", height:"30px"}} value={email} onChange={(e) => setEmail(e.target.value)} />
+<button onClick={handleSubmit}  >Inviter</button>
+</div>
+      </div>
+<div style={{marginTop:"40px"}}>
+
+</div>
       {/* Merci pour votre participation */}
     </div>
   );

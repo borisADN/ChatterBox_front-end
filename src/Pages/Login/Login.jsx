@@ -11,21 +11,24 @@ export default function Login() {
 
     const handle_login = async (e) => {
       e.preventDefault();
-      console.log('heading', email, password);
+      // console.log('heading', email, password);
       try {
         const response = await axios.post('http://localhost:8000/api/login', {
           email,
           password,
       });
-      console.log(response.data);
+      console.log(response.data.message);
       if (response.data.message === 'Login successful') {
         toast.success('Bienvenue!');
         // console.log(response.data.user.id);
+        
         
         localStorage.setItem('UserId', response.data.user.id);
         navigate('/dashboard');
       } else if(response.data.message === 'Login failed') {
         toast.error('Invalid email or password');
+        console.log(response.data.message);
+
         
       }
       
