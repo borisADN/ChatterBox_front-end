@@ -143,6 +143,10 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
+p{
+  margin-bottom: 0!important;
+}
+
 #chat .message {
   background: #fff;
   padding: 1rem;
