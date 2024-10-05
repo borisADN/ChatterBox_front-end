@@ -6,10 +6,8 @@ import Welcome from "./Pages/Welcome/Welcome";
 import NotFound from "./Pages/NotFound/NotFound";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Users from "./Pages/Users/Users";
-import ChatGpt from "./Pages/Users/ChatGpt";
-import ChatInterface from "./Pages/Users/ChatGpt";
 import Chat from "./Pages/ChatInterface/Chat";
-import Chat2 from "./Pages/trial/Chat";
+
 import GroupChat from "./Pages/Group/Group";
 import CreateGroup from "./Pages/CreateGroup/CreateGroup";
 import GroupDetails from "./Pages/GroupDetails/GroupDetails";
@@ -35,10 +33,6 @@ export default function App() {
     {
       path: "/all_users",
       element: <Users />
-    },
-    {
-      path: "/trial",
-      element: <Chat2 />
     },
     {
       path: "/chat",

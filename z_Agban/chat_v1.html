@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chat Interface</title>
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+
+        :root {
+            --primary-color: #6c63ff;
+            --secondary-color: #f1f1f1;
+            --text-color: #333;
+            --text-light-color: #666;
+            --background-color: #f7f7ff;
+            --message-bg-color: #fff;
+            --message-sender-bg-color: #6c63ff;
+            --badge-color: #ff3b3b;
+        }
+
+        body, html {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-color);
+            background: var(--background-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .center {
+            display: flex;
+            gap: 2rem;
+            max-width: 1000px;
+        }
+
+        .contacts {
+            background: linear-gradient(145deg, #ffffff, #e6e6ff);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            width: 300px;
+            padding: 1rem;
+            transition: 0.3s;
+        }
+
+        .contacts:hover {
+            transform: scale(1.05);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .contact {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border-radius: 12px;
+            background: var(--secondary-color);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .contact:hover {
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .pic {
+            width: 50px;
+            height: 50px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+
+        .badge {
+            background: var(--badge-color);
+            color: #fff;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: auto;
+        }
+
+        .name {
+            font-weight: 500;
+        }
+
+        .message {
+            font-size: 0.9rem;
+            color: var(--text-light-color);
+        }
+
+        /* Chatbox */
+        .chat {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 400px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 1rem;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .chat .bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .chat .bar .pic {
+            margin-right: 1rem;
+        }
+
+        .chat .seen {
+            margin-left: auto;
+            font-size: 0.9rem;
+            color: var(--text-light-color);
+        }
+
+        #chat {
+            background: var(--background-color);
+            padding: 1rem;
+            border-radius: 12px;
+            overflow-y: auto;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            scroll-behavior: smooth;
+        }
+
+        #chat .message {
+            background: var(--message-bg-color);
+            padding: 1rem;
+            border-radius: 20px 20px 20px 0;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            width: fit-content;
+            max-width: 70%;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        #chat .message.parker {
+            background: var(--message-sender-bg-color);
+            color: #fff;
+            margin-left: auto;
+            border-radius: 20px 20px 0 20px;
+        }
+
+        .typing {
+            display: inline-block;
+            width: 0.8rem;
+            height: 0.8rem;
+            margin-right: 0.2rem;
+            background: #ccc;
+            border-radius: 50%;
+            animation: typing 1s infinite;
+        }
+
+        @keyframes typing {
+            0%, 100% { transform: scale(0.8); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media only screen and (max-width: 768px) {
+    .center {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contacts, .chat {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .chat {
+        margin-top: 1rem;
+    }
+}
+
+
+        .input {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .input input {
+            flex-grow: 1;
+            padding: 0.8rem;
+            border-radius: 20px;
+            border: none;
+            background: var(--secondary-color);
+            box-shadow: inset 0px 3px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .input i {
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .input i:hover {
+            color: #333;
+        }
+        .contact_container{
+            overflow: scroll;
+            width: 100%;
+            height: 400px;
+            flex-wrap: wrap;
+            gap: 1rem;
+            
+        }
+    </style>
+    </head>
+    <body>
+
+        <div class="center">
+            <div class="contacts">
+                <i class="fas fa-bars fa-2x"></i>
+                <h2>Contacts</h2>
+                <div class="contact_container">
+                    <div class="contact">
+                        <div class="pic rogers"
+                            style="background-image: url('https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/7c/Cap.America_%28We_Don%27t_Trade_Lives_Vision%29.png');"></div>
+                        <div class="name">Steve Rogers</div>
+                        <div class="badge">14</div>
+                    </div>
+                    <div class="contact">
+                        <div class="pic stark"
+                            style="background-image: url('https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/73/SMH_Mentor_6.png');"></div>
+                        <div class="name">Tony Stark</div>
+                    </div>
+                    <div class="contact">
+                        <div class="pic banner"
+                            style="background-image: url('https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/4/4f/BruceHulk-Endgame-TravelingCapInPast.jpg');"></div>
+                        <div class="name">Bruce Banner</div>
+                        <div class="badge">1</div>
+                    </div>
+                    <div class="contact">
+                        <div class="pic thor"
+                            style="background-image: url('https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/9/98/ThorFliesThroughTheAnus.jpg');"></div>
+                        <div class="name">Thor Odinson</div>
+                        <div class="badge">3</div>
+                    </div>
+                    <div class="contact">
+                        <div class="pic danvers"
+                            style="background-image: url('https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/0/05/HeyPeterParker.png');"></div>
+                        <div class="name">Carol Danvers</div>
+                        <!-- <div class="badge">2</div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat">
+                <div class="bar">
+                    <div class="pic stark"
+                        style="background-image: url('https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/73/SMH_Mentor_6.png');"></div>
+                    <div class="name">Tony Stark</div>
+                    <div class="seen">Seen 2m ago</div>
+                </div>
+                <div id="chat">
+                    <div class="message">Hey, are you coming to the
+                        meeting?</div>
+                    <div class="message parker">Yeah, I'll be there in 5
+                        minutes.</div>
+                    <div class="message">Alright, see you there!</div>
+                    <div class="message parker">Yeah, I'll be there in 5
+                        minutes.</div>
+                    <div class="message parker">Yeah, I'll be there in 5
+                        minutes.</div>
+                    <div class="message">Alright, see you there!</div>
+                </div>
+                <div class="input">
+                    <input type="text" placeholder="Type your message...">
+                    <i class="fas fa-paper-plane fa-2x"></i>
+                    <i class="fas fa-microphone fa-2x"></i>
+                </div>
+            </div>
+        </div>
+        <script>
+            // Cible les éléments du DOM
+            const chatBox = document.getElementById('chat');
+            const inputField = document.querySelector('.input input');
+            const sendButton = document.querySelector('.fa-paper-plane');
+        
+            // Fonction pour ajouter un nouveau message
+            function addMessage(text, sender = 'parker') {
+                const newMessage = document.createElement('div');
+                newMessage.classList.add('message');
+                if (sender === 'parker') {
+                    newMessage.classList.add('parker');
+                }
+                newMessage.innerText = text;
+                chatBox.appendChild(newMessage);
+                chatBox.scrollTop = chatBox.scrollHeight; // Scroll automatique vers le bas
+            }
+        
+            // Envoi du message lorsqu'on clique sur le bouton d'envoi
+            sendButton.addEventListener('click', () => {
+                const messageText = inputField.value.trim();
+                if (messageText !== '') {
+                    addMessage(messageText, 'parker');
+                    inputField.value = ''; // Vider le champ après l'envoi
+                }
+            });
+        
+            // Envoi du message avec la touche 'Entrée'
+            inputField.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendButton.click();
+                }
+            });
+        </script>
+        
+    
+    </body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Form</title>
+    <style>
+    
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=The+Girl+Next+Door&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=The+Girl+Next+Door&display=swap');
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #023047;
+        }
+       /* From Uiverse.io by micaelgomestavares */ 
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  max-width: 350px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  border-radius: 20px;
+  position: relative;
+}
+.form:hover{
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+  font-size: 28px;
+  color: royalblue;
+  font-weight: 600;
+  letter-spacing: -1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+}
+
+.title::before,.title::after {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 0px;
+  background-color: royalblue;
+}
+
+.title::before {
+  width: 18px;
+  height: 18px;
+  background-color: royalblue;
+}
+
+.title::after {
+  width: 18px;
+  height: 18px;
+  animation: pulse 1s linear infinite;
+}
+
+.message, .signin {
+  color: rgba(88, 87, 87, 0.822);
+  font-size: 14px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.submit {
+  border: none;
+  outline: none;
+  background-color: royalblue;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  transform: .3s ease;
+}
+
+.submit:hover {
+  background-color: rgb(56, 90, 194);
+  cursor: pointer;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+
+/* From Uiverse.io by liyaxu123 */ 
+.form-control {
+  position: relative;
+  margin: 2px 0 4px;
+  width: 100%;
+}
+
+.form-control input {
+  /* background-color: transparent; */
+  border: 0;
+  /* font-family: "Permanent Marker", cursive; */
+  border-bottom: 2px #8b1d1d solid;
+  display: block;
+  width: 100%;
+  padding: 15px 0;
+  font-size: 18px;
+  color: #16141d;
+}
+
+.form-control input:focus,
+.form-control input:valid {
+  outline: 0;
+  border-bottom-color: blue !important;
+}
+
+.form-control label {
+  position: absolute;
+  top: 15px;
+  left: 0;
+  pointer-events: none;
+}
+
+.form-control label span {
+  display: inline-block;
+  font-size: 18px;
+  min-width: 5px;
+  color: #5a1111;
+  transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.form-control input:focus+label span,
+.form-control input:valid+label span {
+  color: blue !important;;
+  transform: translateY(-30px);
+}
+
+    </style>
+</head>
+<body>
+    <form class="form" method="post" action="/submit-form">
+        <p class="title">Register</p>
+        <p class="message">Signup now and get full access to our app.</p>
+
+
+
+        
+       
+       
+
+        
+
+        <div class="form-control">
+            <input id="name" type="text" required>
+            <label for="name">
+                <span style="transition-delay:0ms">N</span><span style="transition-delay:50ms">o</span><span style="transition-delay:100ms">m</span>
+            </label>
+        </div>
+        
+        <div class="form-control">
+            <input id="email" type="email" required>
+            <label for="email">
+                <span style="transition-delay:0ms">E</span><span style="transition-delay:50ms">m</span><span style="transition-delay:100ms">a</span><span style="transition-delay:150ms">i</span><span style="transition-delay:200ms">l</span>
+            </label>
+        </div>
+        
+        <div class="form-control">
+            <input id="password" type="password" required>
+            <label for="password">
+                <span style="transition-delay:0ms">M</span><span style="transition-delay:50ms">o</span><span style="transition-delay:100ms">t</span><span style="transition-delay:150ms"> </span><span style="transition-delay:200ms">d</span><span style="transition-delay:250ms">e</span><span style="transition-delay:300ms"> </span><span style="transition-delay:350ms">P</span><span style="transition-delay:400ms">a</span><span style="transition-delay:450ms">s</span><span style="transition-delay:500ms">s</span><span style="transition-delay:550ms">e</span>
+            </label>
+        </div>
+        
+
+        <div class="form-control" >
+            <input id="password-confirmation" type="password" required>
+            <label for="password-confirmation">
+                <span style="transition-delay:0ms">C</span><span style="transition-delay:50ms">o</span><span style="transition-delay:100ms">n</span><span style="transition-delay:150ms">f</span><span style="transition-delay:200ms">i</span><span style="transition-delay:250ms">r</span><span style="transition-delay:300ms">m</span><span style="transition-delay:350ms">a</span><span style="transition-delay:400ms">t</span><span style="transition-delay:450ms">i</span><span style="transition-delay:500ms">o</span><span style="transition-delay:550ms">n</span><span style="transition-delay:600ms"> </span><span style="transition-delay:650ms">d</span><span style="transition-delay:700ms">u</span><span style="transition-delay:750ms"> </span><span style="transition-delay:800ms">m</span><span style="transition-delay:850ms">o</span><span style="transition-delay:900ms">t</span><span style="transition-delay:950ms"> </span><span style="transition-delay:1000ms">d</span><span style="transition-delay:1050ms">e</span><span style="transition-delay:1100ms"> </span><span style="transition-delay:1150ms">p</span><span style="transition-delay:1200ms">a</span><span style="transition-delay:1250ms">s</span><span style="transition-delay:1300ms">s</span><span style="transition-delay:1350ms">e</span>
+            </label>
+        </div>
+        
+        
+        
+        
+        
+
+        
+
+       
+        
+        <button type="submit" class="submit">Submit</button>
+        <p class="signin">Already have an account? <a href="#">Signin</a></p>
+    </form>
+</body>
+</html>

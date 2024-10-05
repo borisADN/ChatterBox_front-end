@@ -25,10 +25,11 @@ export default function Chat() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            console.log("handleSubmit");
+            // console.log("handleSubmit");
             const response = await axios.post('http://localhost:8000/api/AddMember', {
                 group_id: groupId,
                 email: email,
+                sender_id :localStorage.getItem('UserId')
             });
             toast.success('Utilisateur ajoute avec succes');
             navigate('/group');

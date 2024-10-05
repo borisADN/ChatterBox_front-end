@@ -1,0 +1,279 @@
+
+----------------------------------------------------------------------------------------
+ca peut servir un jour 
+import React, { useEffect } from "react";
+import { UserStyle } from "./style";
+import axios from "axios";
+import { IoSearch } from "react-icons/io5";
+import "./Users.css";
+
+export default function Users() {
+    const fetchUsers = async () => {
+        try {
+            const response = await axios.get("http://localhost:8000/api/all_users");
+            const data = response.data; // Pas besoin de response.json()
+            console.log(data);
+            // setUsers(data); // Assure-toi que tu as un état pour stocker les utilisateurs
+        } catch (error) {
+            console.error("Erreur lors de la récupération des utilisateurs :", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+    const users = [
+        {
+          name: "Steve Rogers",
+          image: "https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/7c/Cap.America_%28We_Don%27t_Trade_Lives_Vision%29.png"
+        },
+        {
+          name: "Tony Stark",
+          image: "https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/73/SMH_Mentor_6.png"
+        },
+        {
+          name: "Bruce Banner",
+          image: "https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/4/4f/BruceHulk-Endgame-TravelingCapInPast.jpg"
+        },
+        {
+          name: "Thor Odinson",
+          image: "https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/9/98/ThorFliesThroughTheAnus.jpg"
+        },
+        {
+          name: "Carol Danvers",
+          image: "https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/0/05/HeyPeterParker.png"
+        }
+      ];
+  return (
+    <div style={UserStyle.Container} className="Poppins">
+      <div className="contacts">
+        <h2>Contacts</h2>
+        <div className="search-bar">
+          <input type="text" />
+          <IoSearch />
+        </div>
+        <div className="contact_container">
+          {users.map((user) => (
+            <div className="contact">
+                <div className="pic" style={{ backgroundImage: `url(${user.image})` }}>
+
+                </div>
+              <p>{user.name}</p>
+            </div>
+          ))}
+
+        </div>
+      </div>
+    </div>
+  );
+}
+_______________________________________________________________
+ORIGINAL 
+import React, { useState } from "react";
+import { UserStyle } from "./style";
+import { FaPaperclip, FaPaperPlane } from "react-icons/fa";
+import "./Chat.css";
+import { IoSend } from "react-icons/io5";
+
+export default function Chat() {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isClipHovered, setIsClipHovered] = useState(false);
+
+  return (
+    <div style={UserStyle.Container} className="Poppins">
+      <div className="center">
+        <div className="contacts">
+          <h2>Contacts</h2>
+          <div className="contact_container">
+            <div className="contact">
+              <div
+                className="pic"
+                style={{
+                  backgroundImage:
+                    "url(https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/7c/Cap.America_%28We_Don%27t_Trade_Lives_Vision%29.png)"
+                }}
+              />
+              <div className="name">Steve Rogers</div>
+              <div className="badge">14</div>
+            </div>
+            <div className="contact">
+              <div
+                className="pic"
+                style={{
+                  backgroundImage:
+                    "url(https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/7c/Cap.America_%28We_Don%27t_Trade_Lives_Vision%29.png)"
+                }}
+              />
+              <div className="name">Steve Rogers</div>
+              <div className="badge">14</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="chat">
+          <div className="bar">
+            <div
+              className="pic"
+              id="selectedUserImg"
+              style={{
+                backgroundImage:
+                  "url(https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/73/SMH_Mentor_6.png)"
+              }}
+            />
+            <div className="name" id="selectedUserName">
+              Steve Rogers
+            </div>
+            <div className="seen">Seen 2m ago</div>
+          </div>
+
+          <div id="chat">
+            {/* Sample messages */}
+            <div className="message">Hey, are you coming to the meeting?</div>
+            <div className="message sender">Yeah, I'll be there in 5 minutes.</div>
+            <div className="message">Alright, see you there!</div>
+            {/* More messages... */}
+          </div>
+
+          <div className="input">
+            {/* <input type="text" placeholder="Type a message..." /> */}
+            <textarea name="" id=""></textarea>
+
+            <div
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              style={{
+                cursor: "pointer",
+                color: "blue",
+                transition: "transform 0.3s ease-in-out",
+                transform: isHovered ? 'scale(1.2)' : 'scale(1)'
+              }}
+            >
+              {isHovered ? <IoSend /> : <FaPaperPlane />}
+            </div>
+
+            <div
+              onMouseEnter={() => setIsClipHovered(true)}
+              onMouseLeave={() => setIsClipHovered(false)}
+              style={{
+                cursor: "pointer",
+                color: "blue",
+                transition: "transform 0.3s ease-in-out",
+                transform: isClipHovered ? 'scale(1.2)' : 'scale(1)'
+              }}
+            >
+              <FaPaperclip />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+_____________________________________________________________________________________________
+
+
+
+
+                                _____________________________________________________________________________________________
+                                Requêtes SQL utiles pour la gestion de l'application de chat
+1. Créer un nouveau groupe
+Cette requête permet de créer un nouveau groupe en insérant les informations du groupe, y compris l'administrateur (admin) qui est souvent le créateur du groupe.
+
+sql
+Copier le code
+INSERT INTO Groups (name, description, admin_id, avatar_url) 
+VALUES ('Nom du groupe', 'Description du groupe', 1, 'path/to/avatar.jpg');
+2. Ajouter un membre à un groupe
+Une fois qu'un groupe est créé, cette requête permet d'ajouter un membre au groupe en insérant une nouvelle ligne dans la table Group_Members.
+
+sql
+Copier le code
+INSERT INTO Group_Members (group_id, user_id) 
+VALUES (1, 2); -- 1: ID du groupe, 2: ID de l'utilisateur à ajouter
+3. Envoyer un message dans un groupe
+Cette requête insère un nouveau message dans la table Messages. Si le message contient un fichier, tu l’ajoutes dans le champ file_url.
+
+sql
+Copier le code
+INSERT INTO Messages (group_id, sender_id, content, file_url) 
+VALUES (1, 2, 'Salut tout le monde!', NULL); -- 1: ID du groupe, 2: ID de l'utilisateur qui envoie le message
+4. Récupérer tous les messages d'un groupe
+Cette requête sélectionne tous les messages d'un groupe particulier, ordonnés par la date de création (par exemple, pour les afficher du plus ancien au plus récent). Tu peux ajouter la pagination pour éviter de charger trop de messages à la fois.
+
+sql
+Copier le code
+SELECT M.*, U.username
+FROM Messages M
+JOIN Users U ON M.sender_id = U.id
+WHERE M.group_id = 1 -- ID du groupe
+ORDER BY M.created_at ASC
+LIMIT 20 OFFSET 0; -- Pagination: les 20 premiers messages
+Pour la pagination :
+
+LIMIT 20 renvoie 20 messages.
+OFFSET contrôle à partir de quel message commencer. Par exemple, OFFSET 0 commence par le premier message, OFFSET 20 commence par le 21e message.
+5. Récupérer la liste des groupes d'un utilisateur
+Cette requête sélectionne tous les groupes auxquels un utilisateur est membre.
+
+sql
+Copier le code
+SELECT G.* 
+FROM Groups G
+JOIN Group_Members GM ON G.id = GM.group_id
+WHERE GM.user_id = 2; -- 2: ID de l'utilisateur
+6. Supprimer un membre d'un groupe
+Pour supprimer un membre d'un groupe, tu peux utiliser une requête DELETE. Cette requête retire l'utilisateur de la table Group_Members.
+
+sql
+Copier le code
+DELETE FROM Group_Members 
+WHERE group_id = 1 AND user_id = 2; -- 1: ID du groupe, 2: ID du membre à supprimer
+7. Supprimer un groupe
+Si tu veux supprimer un groupe, il te faut d'abord supprimer les messages associés (en raison des contraintes de clé étrangère) et ensuite supprimer le groupe lui-même.
+
+sql
+Copier le code
+-- Supprimer les messages du groupe
+DELETE FROM Messages WHERE group_id = 1;
+
+-- Supprimer les membres du groupe
+DELETE FROM Group_Members WHERE group_id = 1;
+
+-- Supprimer le groupe
+DELETE FROM Groups WHERE id = 1;
+8. Modifier le nom ou la description du groupe
+Cette requête met à jour les informations du groupe (nom, description, avatar).
+
+sql
+Copier le code
+UPDATE Groups
+SET name = 'Nouveau nom', description = 'Nouvelle description'
+WHERE id = 1; -- 1: ID du groupe
+9. Vérifier si un utilisateur est membre d’un groupe
+Cette requête permet de vérifier si un utilisateur appartient déjà à un groupe, utile avant d’ajouter un membre pour éviter les doublons.
+
+sql
+Copier le code
+SELECT * 
+FROM Group_Members
+WHERE group_id = 1 AND user_id = 2;
+10. Rechercher des messages par mot-clé dans un groupe
+Cette requête permet de rechercher des messages contenant un mot-clé spécifique dans un groupe particulier.
+
+sql
+Copier le code
+SELECT M.*, U.username
+FROM Messages M
+JOIN Users U ON M.sender_id = U.id
+WHERE M.group_id = 1
+AND M.content LIKE '%mot_clé%'
+ORDER BY M.created_at DESC;
+11. Lister les membres d'un groupe
+Cette requête sélectionne tous les membres d'un groupe spécifique, y compris des informations sur les utilisateurs.
+
+sql
+Copier le code
+SELECT U.*
+FROM Users U
+JOIN Group_Members GM ON U.id = GM.user_id
+WHERE GM.group_id = 1; -- 1: ID du groupe

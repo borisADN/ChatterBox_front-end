@@ -20,9 +20,7 @@ export default function Register() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      // alert('Passwords do not match');
       toast.error('Passwords do not match');
-      // setMessage('Passwords do not match.');
       return;
   }
 

@@ -19,8 +19,10 @@ useEffect(() => {
       console.log(response.data);
       setGroup(response.data);
       setMembers(response.data.members);
-      const admin = response.data.members.find(member => member.id == AdderId);
-      if (admin) {
+      const admin = response.data.members.find(member => member.id = AdderId);
+      console.log(admin);
+      (admin);
+      if (admin.name) {
         setAdminName(admin.name);
       }
       console.log(admin.name);
@@ -128,7 +130,7 @@ useEffect(() => {
                 <td>{member.name}</td>
                 <td>{member.email}</td>
                 <td>
-                {member.id != AdderId ? (
+                {member.id !== AdderId ? (
                   //on peut definir cette fonction apres au besoin
                   //et aussi tres important tout le monde ne peut pas expulser. seul l'admin peut expulser
                     <a href="#" onClick={() => handleDelete(member.id)}>Expulser</a>

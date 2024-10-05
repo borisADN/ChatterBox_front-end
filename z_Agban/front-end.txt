@@ -1,0 +1,77 @@
+Étape 1 : Amélioration de la liste des contacts avec aperçu des derniers messages
+
+import React, { useState } from "react";
+import { FaPaperPlane } from "react-icons/fa";
+import "./Chat.css"; // Assurez-vous que ce fichier contient le style nécessaire
+
+export default function Chat() {
+  const [selectedContact, setSelectedContact] = useState(null);
+  
+  // Liste des contacts
+  const contacts = [
+    { id: 1, name: "Steve Rogers", img: "https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/7c/Cap.America_%28We_Don%27t_Trade_Lives_Vision%29.png" },
+    { id: 2, name: "Tony Stark", img: "https://vignette.wikia.nocookie.net/marvelcinematicuniverse/images/7/73/SMH_Mentor_6.png" }
+  ];
+  
+  // Derniers messages (statique pour l'instant)
+  const lastMessages = {
+    1: "Hey Steve, are we still on for the meeting?",
+    2: "Here's the file you requested, Tony!"
+  };
+
+  // Sélection du contact
+  const handleContactSelect = (contact) => {
+    setSelectedContact(contact);
+  };
+
+  return (
+    <div className="chat-container">
+      {/* Barre latérale des contacts */}
+      <div className="contacts">
+        <h2>Contacts</h2>
+        <div className="contact-container">
+          {contacts.map((contact) => (
+            <div key={contact.id} className="contact" onClick={() => handleContactSelect(contact)}>
+              <div
+                className="pic"
+                style={{ backgroundImage: `url(${contact.img})` }}
+              />
+              <div className="name">{contact.name}</div>
+              <div className="lastMessage">{lastMessages[contact.id]}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Fenêtre de chat */}
+      <div className="chat">
+        {selectedContact ? (
+          <>
+            <div className="bar">
+              <div
+                className="pic"
+                style={{ backgroundImage: `url(${selectedContact.img})` }}
+              />
+              <div className="name">{selectedContact.name}</div>
+              <div className="seen">Last seen 2 minutes ago</div>
+            </div>
+
+            <div id="chat">
+              {/* Messages du contact sélectionné */}
+            </div>
+
+            <div className="input">
+              <textarea placeholder="Type a message..." />
+              <button>
+                <FaPaperPlane />
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="no-contact-selected">Select a contact to chat</div>
+        )}
+      </div>
+    </div>
+  );
+}
+_____________________________________________________________________________________________
