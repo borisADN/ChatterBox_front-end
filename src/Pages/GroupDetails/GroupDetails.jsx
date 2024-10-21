@@ -5,8 +5,8 @@ import axios from "axios";
 
 export default function GroupDetails() {
   const { groupId } = useParams();
-  const [group, setGroup] = useState(null); // État pour les détails du groupe
-  const [members, setMembers] = useState([]); // État pour la liste des membres
+  const [group, setGroup] = useState(null); 
+  const [members, setMembers] = useState([]); 
   const [email, setEmail] = useState('');
   const AdderId = localStorage.getItem('UserId');
   const [adminName, setAdminName] = useState(""); 
@@ -87,8 +87,6 @@ useEffect(() => {
         {groupId}
       </p>
       {/* Display group details here */}
-      {/* Add any necessary components or styling */}
-      {/* Example: <h1>Group Details</h1> */}
       {group && (
         <>
           <div>
@@ -98,15 +96,13 @@ useEffect(() => {
               alt="Group Avatar"
             />
           </div>
-          {/* {console.log(group.group.name)}; */}
+        
           
           <h1>{group.group.name}</h1>
           <h3>Créé par <span style={{color:"green",textDecoration:"underline"}}>{adminName}</span>  le {new Date(group.group.created_at).toLocaleDateString()}</h3>
           <h3>Membres : {members.length}</h3>
         </>
       )}
-      {/* <h1>{group.name}</h1> */}
-   
       <div className="table">
         <table>
           <thead>
@@ -123,7 +119,7 @@ useEffect(() => {
                 <td>
                   <img
                     style={{ width: "50px", height: "50px", borderRadius: "50%" }}
-                    src={`http://localhost:8000/uploads/${member.avatar}`} // Avatar du membre
+                    src={`http://localhost:8000/uploads/${member.avatar}`} 
                     alt={member.name}
                   />
                 </td>

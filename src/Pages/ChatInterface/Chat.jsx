@@ -3,12 +3,15 @@ import { UserStyle } from "./style";
 import {Link} from "react-router-dom"
 import { FaArrowAltCircleRight, FaPaperclip, FaPaperPlane } from "react-icons/fa";
 import { HiMiniUsers } from "react-icons/hi2"
-import { BsPlusCircleFill } from "react-icons/bs";
 import { IoSearch } from "react-icons/io5";
 import axios from "axios";
+import { Modal, Button } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import "./Chat.css";
 
 export default function Chat() {
+    
+    const [userData, setUserData] = useState(null);
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
     const [selectedUser, setSelectedUser] = useState(null);
@@ -16,6 +19,10 @@ export default function Chat() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [messages, setMessages] = useState([]);
     const chatRef = useRef(null);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleShow = () => setShowModal(true);
+    const handleClose = () => setShowModal(false);
 
     // Fetch users
     const fetchUsers = async () => {
@@ -121,19 +128,60 @@ export default function Chat() {
         fetchMessages();
     };
 
+    //fetch user data
+    useEffect(() => {
+        const userId = localStorage.getItem("UserId");
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8000/api/getCurrent/${userId}`);
+                // console.log(response.dat   
+                setUserData(response.data);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+        fetchUserData();
+    }, []);
+
     return (
         <div style={UserStyle.Container} className="Poppins">
             <div className="center">
                 {/* Contacts Section */}
                 <div className="contacts">
-                    {/* insert here an example image for current user profile */}
-                        {/* <img src="https://th.bing.com/th/id/R.3770fed44a56e4f939bd93f07912b461?rik=03hW0KESDYUJzA&riu=http%3a%2f%2fimg.bleacherreport.net%2fimg%2fimages%2fphotos%2f002%2f105%2f204%2fhi-res-159596853_crop_exact.jpg%3fw%3d1500%26h%3d1500%26q%3d85&ehk=fbxOupAgjVzLayWE%2ba%2bdh30dosBHN%2bkAlZBSL9dUcvE%3d&risl=&pid=ImgRaw&r=0" alt="User Profile" style={{ borderRadius: "50%", width: "40px", height: "40px" }} /> */}
                     <div className="profile">
-                        {/* insert here an example image for current user profile */}
-                    </div>
-                    
+                    </div>  
+                        <img
+                src={userData && userData.avatar ? `http://localhost:8000/uploads/${userData.avatar}` : 'default-avatar-url'}
+                alt="User Profile"
+                style={{ borderRadius: "50%", width: "40px", height: "40px", boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)", cursor: "pointer" }}
+                onClick={handleShow} 
+            />
+
+<Modal show={showModal} onHide={handleClose} style={{ maxWidth: '500px', margin: '0 auto' }}>
+                <Modal.Header closeButton>
+                    <Modal.Title  style={{ fontFamily: "Poppins", fontWeight: "bold" }}>Informations Personnelles</Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{ backgroundColor: '#219ebc',display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    {/* Afficher des informations supplémentaires sur l'utilisateur */}
+                    <img
+                        src={userData && userData.avatar ? `http://localhost:8000/uploads/${userData.avatar}` : 'default-avatar-url'}
+                        alt="User Profile"
+                        style={{ borderRadius: "50%", width: "100px", height: "100px", display: "block", margin: "0 auto" , boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)" }}
+                    />
+                    <p style={{ textAlign: 'center', marginTop: '10px',fontFamily: "Poppins", fontWeight: "bold" }}>{userData && userData.name}</p>
+                  
+                    <Link to={`/updateUser/${userData && userData.id}`} style={{ backgroundColor: '#023e8a', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Modifier Mon Profil</Link>
+
+                </Modal.Body>
+                {/* <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer> */}
+            </Modal>
+
                     <h2>Contacts</h2>
-                    {/* <a href="">Mes Groupes</a>  */}
+                 {/* Barre de recherche pour les utilisateurs */}
                     <div className="search-bar">
                         <input 
                             type="text" 
@@ -192,8 +240,6 @@ export default function Chat() {
                                             message.file.endsWith('.gif') ? (
                         
                                                 <img 
-                    
-                                
                                                     src={`http://localhost:8000/uploads/sendFile/${message.file}`} 
                                                     alt="Fichier envoyé" 
                                                     style={{ maxWidth: '100%', maxHeight: '200px' }} 

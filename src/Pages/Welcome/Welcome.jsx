@@ -2,23 +2,16 @@ import React, { useEffect } from "react";
 import "./css/style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AOS from "aos";
-import "aos/dist/aos.css"; // You can also use <link> for styles
-// ..
-// AOS.init();
+import "aos/dist/aos.css"; 
 
 import photo from "../../assets/hero-image.png";
 import photo1 from "../../assets/40138-removebg-preview.png";
-import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
+
 
 export default function Welcome() {
   useEffect(() => {
     AOS.init();
-    // ..
-    // Simule le comportement de window.onload avec useEffect
 
-    // Simule window.onload
-    // window.setTimeout(fadeout, 500);
   }, []);
   return (
     <div style={{ Height: "100vh" }}>
@@ -87,7 +80,7 @@ export default function Welcome() {
   Optimisez votre productivité et collaborez sans effort. */}
                   </div>
                 </p>
-                {/* <div data-aos="zoom-in-right"></div> */}
+              
                 <div
                   data-aos="zoom-out-up"
                   data-aos-duration="3000"

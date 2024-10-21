@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import "./Register.css";
 import Button from "../../Components/Button";
 import { Link, useNavigate } from "react-router-dom";
-
 import { toast } from'react-hot-toast';
-
 import axios from 'axios';
-// import "./Pages/Register.css";
+
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -40,7 +38,6 @@ export default function Register() {
 
       toast.success(response.data.message);
       navigate('/login');
-      // setMessage(response.data.message);
   } catch (error) {
       if (error.response) {
         toast.error(error.response.data.message);
@@ -50,17 +47,11 @@ export default function Register() {
           // La requête a été faite mais le serveur a répondu avec un code d'état non autorisé (non 4xx)
 
           // Le serveur a répondu avec un code d'état 422 (Unprocessable Entity)
-          console.log(error.response.data);  // Pour voir les détails de l'erreur
-          // setMessage(`Error: ${error.response.data.message}`);
+          // console.log(error.response.data);  // Pour voir les détails de l'erreur
       } else if (error.request) {
         toast.error(error.request.data.message);
-
-          // La requête a été faite mais aucune réponse n'a été reçue
-          // setMessage('Error: No response from server');
       } else {
         toast.error(error.message);
-          // Autre erreur lors de la configuration de la requête
-          // setMessage(`Error: ${error.message}`);
       }
   }
   
@@ -161,9 +152,6 @@ export default function Register() {
 
         <div className="center">
           <Button text={"S'inscrire"} className="submit" />
-          {/* <button type="submit" class="submit">
-          Submit
-        </button> */}
           <p class="signin">
             Deja Membre?<Link to="/login">Se Connecter</Link>
           </p>

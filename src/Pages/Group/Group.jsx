@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"; 
-import axios from "axios"; // Importer axios
+import axios from "axios";
 import { UserStyle } from "../Users/style";
 import { IoSearch } from "react-icons/io5";
 import { FaPaperclip, FaPaperPlane } from "react-icons/fa";
@@ -16,10 +16,6 @@ export default function GroupChat() {
     const [search, setSearch] = useState("");
     const chatRef = useRef(null);
     const [selectedFile, setSelectedFile] = useState(null);
-    
-    // Référence audio pour le son des messages reçus
-    const audioRef = useRef(new Audio('/audio/message-received.mp3'));
-    const [lastMessageId, setLastMessageId] = useState(null); // ID du dernier message
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -137,27 +133,15 @@ export default function GroupChat() {
         }
     }, [selectedGroup]);
 
-    // Surveiller les nouveaux messages et jouer le son
-    useEffect(() => {
-        // Vérifie si le tableau des messages n'est pas vide avant d'accéder au dernier message
-        if (messages.length > 0) {
-            const lastMessageIndex = messages.length - 1;
-            const lastMessage = messages[lastMessageIndex];
-
-            // Jouer le son uniquement si le dernier message est différent et provient d'un autre utilisateur
-            if (lastMessage.id !== lastMessageId && lastMessage.sender_id !== localStorage.getItem("UserId")) {
-                audioRef.current.play();
-                setLastMessageId(lastMessage.id); // Mettre à jour l'ID du dernier message
-            }
-        }
-    }, [messages]); // Exécuter cet effet lorsqu'il y a des changements dans les messages
+  
+  
 
     return (
         <div style={UserStyle.Container} className="Poppins">
             <div className="center">
                 {/* Contacts Section */}
                 <div className="contacts">
-                    <h2>Groups</h2>
+                    <h2>Groupes</h2>
                     <div className="search-bar">
                         <input 
                             type="text" 

@@ -11,7 +11,6 @@ export default function Login() {
 
     const handle_login = async (e) => {
       e.preventDefault();
-      // console.log('heading', email, password);
       try {
         const response = await axios.post('http://localhost:8000/api/login', {
           email,
@@ -20,9 +19,6 @@ export default function Login() {
       console.log(response.data.message);
       if (response.data.message === 'Login successful') {
         toast.success('Bienvenue!');
-        // console.log(response.data.user.id);
-        
-        
         localStorage.setItem('UserId', response.data.user.id);
         navigate('/dashboard');
       } else if(response.data.message === 'Login failed') {
@@ -69,9 +65,6 @@ export default function Login() {
     <form class="form" method="post" onSubmit={handle_login}>
       <p class="title">Connexion</p>
       <p class="message">Connectez-vous pour continuer l'aventure.</p>
-
-    
-
       <div className="form_control" >
         <input type="email" id="email" required onChange={(e) => setEmail(e.target.value)}  />
         <label htmlFor="email">
@@ -109,7 +102,9 @@ export default function Login() {
       </button> */}
         <p class="signin">Pas encore de compte?<Link to="/register" href="#">S'inscrire</Link>
         </p>
+        
       </div>
+        <p><Link to="/" href="#">Mot de passe oublie?</Link></p>
     </form>
   </div>
   )

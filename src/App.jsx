@@ -7,10 +7,10 @@ import NotFound from "./Pages/NotFound/NotFound";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Users from "./Pages/Users/Users";
 import Chat from "./Pages/ChatInterface/Chat";
-
 import GroupChat from "./Pages/Group/Group";
 import CreateGroup from "./Pages/CreateGroup/CreateGroup";
 import GroupDetails from "./Pages/GroupDetails/GroupDetails";
+import EditProfile from "./Pages/EditProfile/EditProfile";
 
 export default function App() {
   const route = createBrowserRouter([
@@ -53,6 +53,10 @@ export default function App() {
     {
       path: "/addMember/:groupId",
      element: <Users />
+    },
+    {
+      path: "/updateUser/:UserId",
+     element: <EditProfile />
     },
     {
       path: "*",

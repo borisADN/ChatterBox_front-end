@@ -3,10 +3,8 @@ import { UserStyle } from "./style";
 import { FaPaperclip, FaPaperPlane, FaTrash } from "react-icons/fa"; // Importer l'icône de suppression
 import { IoSearch } from "react-icons/io5";
 import "./Users.css";
-
 import {Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import logo from "../../assets/40138-removebg-preview.png";
 import toast from "react-hot-toast";
 
 export default function Chat() {
@@ -18,38 +16,26 @@ export default function Chat() {
     const [email, setEmail] = useState("");
     const chatRef = useRef(null);
     const navigate = useNavigate();
-
-    
     const { groupId } = useParams();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            // console.log("handleSubmit");
             const response = await axios.post('http://localhost:8000/api/AddMember', {
                 group_id: groupId,
                 email: email,
                 sender_id :localStorage.getItem('UserId')
             });
             toast.success('Utilisateur ajoute avec succes');
-            navigate('/group');
-            
+            navigate('/group');           
         } catch (error) {
             console.error("Erreur lors de l'ajout du membre :", error);
             if (error.response) {
                 toast.error(error.response.data);
-                console.log(error.response.data);
-                // Gérer les erreurs envoyées par l'API
-                // setMessage(error.response.data.message);
             } else {
                 console.error("Erreur inconnue :", error);
-                // toast.error('Bienvenue!');
-                // Gérer d'autres erreurs (ex: erreur de connexion)
-                // setMessage('An error occurred. Please try again.');
             }
-            
         }
-        
     };
 
     const fetchUsers = async () => {
