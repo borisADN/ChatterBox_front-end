@@ -3,6 +3,7 @@ import "./css/style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AOS from "aos";
 import "aos/dist/aos.css"; 
+import { Link } from "react-router-dom";
 
 import photo from "../../assets/hero-image.png";
 import photo1 from "../../assets/40138-removebg-preview.png";

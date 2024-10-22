@@ -11,6 +11,9 @@ import GroupChat from "./Pages/Group/Group";
 import CreateGroup from "./Pages/CreateGroup/CreateGroup";
 import GroupDetails from "./Pages/GroupDetails/GroupDetails";
 import EditProfile from "./Pages/EditProfile/EditProfile";
+import Forgot from "./Pages/Forgot/Forgot";
+import OtpCode from "./Pages/OtpCode/OtpCode";
+import NewPassword from "./Pages/NewPassword/NewPassword";
 
 export default function App() {
   const route = createBrowserRouter([
@@ -57,6 +60,15 @@ export default function App() {
     {
       path: "/updateUser/:UserId",
      element: <EditProfile />
+    },{
+      path: "/forgottenPassword",
+      element: <Forgot />
+    },{
+      path: "/VerifyOtp/:email",
+      element: <OtpCode />
+    },{
+      path: "NewPassword/:email/:code",
+      element: <NewPassword />
     },
     {
       path: "*",

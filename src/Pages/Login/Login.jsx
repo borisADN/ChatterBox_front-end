@@ -104,7 +104,7 @@ export default function Login() {
         </p>
         
       </div>
-        <p><Link to="/" href="#">Mot de passe oublie?</Link></p>
+        <p><Link to="/forgottenPassword" >Mot de passe oublie?</Link></p>
     </form>
   </div>
   )
