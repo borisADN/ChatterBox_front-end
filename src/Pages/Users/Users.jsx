@@ -21,7 +21,7 @@ export default function Chat() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8000/api/AddMember', {
+            const response = await axios.post('http://192.168.1.138:8000/api/AddMember', {
                 group_id: groupId,
                 email: email,
                 sender_id :localStorage.getItem('UserId')
@@ -29,18 +29,20 @@ export default function Chat() {
             toast.success('Utilisateur ajoute avec succes');
             navigate('/group');           
         } catch (error) {
+            // toast.error('Erreur lors de l\'ajout du membre');
+            toast.error('Cet utilisateur fait deja partie du groupe !');
             console.error("Erreur lors de l'ajout du membre :", error);
-            if (error.response) {
-                toast.error(error.response.data);
-            } else {
-                console.error("Erreur inconnue :", error);
-            }
+            // if (error.response) {
+            //     toast.error(error.response.data);
+            // } else {
+            //     console.error("Erreur inconnue :", error);
+            // }
         }
     };
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/all_users");
+            const response = await axios.get("http://192.168.1.138:8000/api/all_users");
             const data = response.data;
             setUsers(data);
         } catch (error) {

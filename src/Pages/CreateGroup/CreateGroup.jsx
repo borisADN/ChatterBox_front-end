@@ -30,7 +30,7 @@ export default function CreateGroup() {
     formData.append("admin_id", admin_id);
 
     const response = await axios.post(
-      "http://localhost:8000/api/CreateGroup",
+      "http://192.168.1.138:8000/api/CreateGroup",
       formData,
       {
         headers: {

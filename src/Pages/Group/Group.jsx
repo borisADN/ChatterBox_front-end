@@ -30,7 +30,7 @@ export default function GroupChat() {
         const fetchGroups = async () => {
             const userId = localStorage.getItem("UserId");
             try {
-                const response = await axios.post('http://localhost:8000/api/SelectGroups', { member_id: userId });
+                const response = await axios.post('http://192.168.1.138:8000/api/SelectGroups', { member_id: userId });
                 setGroups(response.data.groups); 
             } catch (error) {
                 console.error("Erreur lors de la récupération des groupes:", error);
@@ -47,7 +47,7 @@ export default function GroupChat() {
 
     const fetchMessages = async (groupId) => {
         try {
-            const response = await axios.post('http://localhost:8000/api/getGroupMessages', { group_id: groupId });
+            const response = await axios.post('http://192.168.1.138:8000/api/getGroupMessages', { group_id: groupId });
             setMessages(response.data.messages);
         } catch (error) {
             console.error("Erreur lors de la récupération des messages du groupe:", error);
@@ -77,7 +77,7 @@ export default function GroupChat() {
             message,
         };
 
-        await axios.post('http://localhost:8000/api/SendMessageGroup', newMessage);
+        await axios.post('http://192.168.1.138:8000/api/SendMessageGroup', newMessage);
         setMessages(prevMessages => [...prevMessages, newMessage]);
         setMessage("");
         scrollToBottom(); 
@@ -93,7 +93,7 @@ export default function GroupChat() {
         formData.append("file", selectedFile);
 
         try {
-            const response = await axios.post('http://localhost:8000/api/SendMessageGroup', formData, {
+            const response = await axios.post('http://192.168.1.138:8000/api/SendMessageGroup', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -108,7 +108,7 @@ export default function GroupChat() {
 
     const MemberCount = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/countMembers', { 
+            const response = await axios.post('http://192.168.1.138:8000/api/countMembers', { 
                 group_id: selectedGroup.id 
             });
             setMemberCount(response.data.count);
@@ -164,7 +164,7 @@ export default function GroupChat() {
                                      style={{ 
                                          width: '40px', 
                                          height: '40px', 
-                                         backgroundImage: `url(http://localhost:8000/uploads/${group.avatar})`,
+                                         backgroundImage: `url(http://192.168.1.138:8000/uploads/${group.avatar})`,
                                          backgroundSize: 'cover', 
                                          borderRadius: '50%', 
                                          marginRight: '10px' 
@@ -190,7 +190,7 @@ export default function GroupChat() {
                                          style={{ 
                                              width: '40px', 
                                              height: '40px', 
-                                             backgroundImage: `url(http://localhost:8000/uploads/${selectedGroup.avatar })`, 
+                                             backgroundImage: `url(http://192.168.1.138:8000/uploads/${selectedGroup.avatar })`, 
                                              backgroundSize: 'cover', 
                                              borderRadius: '50%', 
                                              marginRight: '10px' 
@@ -222,7 +222,7 @@ export default function GroupChat() {
                                                 {msg.file.match(/\.(jpg|jpeg|png|gif)$/i) ? (
                                                     <div style={{ marginRight: '10px' }}>
                                                         <img 
-                                                            src={`http://localhost:8000/uploads/sendGroupFile/${msg.file}`} target="_blank" 
+                                                            src={`http://192.168.1.138:8000/uploads/sendGroupFile/${msg.file}`} target="_blank" 
                                                             alt="preview" 
                                                             style={{ width: '50px', height: '50px', objectFit: 'cover', borderRadius: '5px' }} 
                                                         />
@@ -234,7 +234,7 @@ export default function GroupChat() {
                                                 )}
                                                 <div>
                                                     <a 
-                                                        href={`http://localhost:8000/uploads/sendGroupFile/${msg.file}`} target="_blank" 
+                                                        href={`http://192.168.1.138:8000/uploads/sendGroupFile/${msg.file}`} target="_blank" 
                                                         download={msg.file}
                                                         style={{ textDecoration: 'none', color: 'blue', fontWeight: 'bold' }}
                                                     >

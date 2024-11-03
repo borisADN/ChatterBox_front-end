@@ -27,7 +27,7 @@ export default function Chat() {
     // Fetch users
     const fetchUsers = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/all_users");
+            const response = await axios.get("http://192.168.1.138:8000/api/all_users");
             console.log(response.data);
             
             setUsers(response.data);
@@ -42,7 +42,7 @@ export default function Chat() {
         const incoming_msg_id = selectedUser.id;
 
         try {
-            const response = await axios.post("http://localhost:8000/api/getMessage", {
+            const response = await axios.post("http://192.168.1.138:8000/api/getMessage", {
                 outgoing_msg_id,
                 incoming_msg_id,
             });
@@ -84,7 +84,7 @@ export default function Chat() {
             };
 
             try {
-                await axios.post("http://localhost:8000/api/sendMessage", newMessage);
+                await axios.post("http://192.168.1.138:8000/api/sendMessage", newMessage);
                 setMessages(prevMessages => [...prevMessages, { ...newMessage, time: new Date() }]);
                 setMessage(""); 
             } catch (error) {
@@ -102,7 +102,7 @@ export default function Chat() {
             formData.append('incoming_msg_id', selectedUser.id);
 
             try {
-                const response = await axios.post("http://localhost:8000/api/sendFile", formData, {
+                const response = await axios.post("http://192.168.1.138:8000/api/sendFile", formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
                 
@@ -133,7 +133,7 @@ export default function Chat() {
         const userId = localStorage.getItem("UserId");
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/api/getCurrent/${userId}`);
+                const response = await axios.get(`http://192.168.1.138:8000/api/getCurrent/${userId}`);
                 // console.log(response.dat   
                 setUserData(response.data);
             } catch (error) {
@@ -151,7 +151,7 @@ export default function Chat() {
                     <div className="profile">
                     </div>  
                         <img
-                src={userData && userData.avatar ? `http://localhost:8000/uploads/${userData.avatar}` : 'default-avatar-url'}
+                src={userData && userData.avatar ? `http://192.168.1.138:8000/uploads/${userData.avatar}` : 'default-avatar-url'}
                 alt="User Profile"
                 style={{ borderRadius: "50%", width: "40px", height: "40px", boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)", cursor: "pointer" }}
                 onClick={handleShow} 
@@ -164,7 +164,7 @@ export default function Chat() {
                 <Modal.Body style={{ backgroundColor: '#219ebc',display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     {/* Afficher des informations supplémentaires sur l'utilisateur */}
                     <img
-                        src={userData && userData.avatar ? `http://localhost:8000/uploads/${userData.avatar}` : 'default-avatar-url'}
+                        src={userData && userData.avatar ? `http://192.168.1.138:8000/uploads/${userData.avatar}` : 'default-avatar-url'}
                         alt="User Profile"
                         style={{ borderRadius: "50%", width: "100px", height: "100px", display: "block", margin: "0 auto" , boxShadow: "0 0 10px rgba(0, 0, 0, 0.5)" }}
                     />
@@ -240,12 +240,12 @@ export default function Chat() {
                                             message.file.endsWith('.gif') ? (
                         
                                                 <img 
-                                                    src={`http://localhost:8000/uploads/sendFile/${message.file}`} 
+                                                    src={`http://192.168.1.138:8000/uploads/sendFile/${message.file}`} 
                                                     alt="Fichier envoyé" 
                                                     style={{ maxWidth: '100%', maxHeight: '200px' }} 
                                                 />
                                             ) : (
-                                                <a href={`http://localhost:8000/uploads/sendFile/${message.file}`} download  target="_blank" rel="noopener noreferrer">
+                                                <a href={`http://192.168.1.138:8000/uploads/sendFile/${message.file}`} download  target="_blank" rel="noopener noreferrer">
                                                     Fichier: {message.file.split('/').pop()}
                                                 </a>
                                             )
